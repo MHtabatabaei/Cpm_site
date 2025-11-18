@@ -1,0 +1,117 @@
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: "Segoe UI", Arial, sans-serif; overflow:hidden; background:#fff; color:#333; }
+
+/* Sidebar */
+.sidebar {
+  position: fixed;
+  top:0;
+  left:0;
+  height:100vh;
+  width:200px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:#fff;
+  border-right:1px solid #eee;
+  padding:20px 10px;
+  z-index:10;
+}
+.logo { width:70px; margin-bottom:10px; pointer-events:none; user-select:none; }
+.sidebar h1 { font-size:14px; text-align:center; line-height:1.4; margin-bottom:15px; }
+.contact-info { font-size:12px; text-align:center; color:#555; line-height:1.6; pointer-events:none; }
+
+/* Slides container */
+.slides-container {
+  position:absolute;
+  top:0;
+  left:200px;
+  height:100vh;
+  width:calc(100vw - 200px);
+  overflow-y:scroll;
+  scroll-snap-type:y mandatory;
+  scrollbar-width:none;
+  position:relative; /* for scroll-indicator positioning */
+}
+.slides-container::-webkit-scrollbar { display:none; }
+
+.slide {
+  position:relative;
+  width:100%;
+  height:100vh;
+  scroll-snap-align:start;
+}
+.slide img {
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  pointer-events:none;
+  -webkit-user-drag:none;
+  user-select:none;
+}
+
+/* Zoom buttons */
+.zoom-controls {
+  position:absolute;
+  bottom:20px;
+  right:20px;
+  display:flex;
+  gap:10px;
+}
+.zoom-controls button {
+  width:35px;
+  height:35px;
+  font-size:20px;
+  border:none;
+  border-radius:5px;
+  background:rgba(0,0,0,0.5);
+  color:#fff;
+  cursor:pointer;
+}
+
+/* Scroll indicator next to images */
+.scroll-indicator {
+  position: absolute; /* relative to slides-container */
+  top:50%;
+  right:10px; /* adjust to sit near images */
+  transform:translateY(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  gap:8px;
+  z-index:10;
+}
+
+.dot {
+  width:10px;
+  height:10px;
+  background:#bbb;
+  border-radius:5px;
+  transition: all 0.3s ease;
+  position:relative;
+  cursor:pointer;
+}
+
+/* Label for dot */
+.dot span {
+  position:absolute;
+  left:20px; /* space to right of dot */
+  top:50%;
+  transform:translateY(-50%);
+  font-size:12px;
+  color:#444;
+  white-space:nowrap;
+}
+
+/* Active dot */
+.dot.active {
+  height:30px;
+  background:#007bff;
+  border-radius:5px;
+}
+
+/* Hover dot */
+.dot:hover:not(.active) {
+  height:30px;
+  background:#999;
+  border-radius:5px;
+}
