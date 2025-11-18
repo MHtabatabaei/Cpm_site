@@ -4,9 +4,314 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Construction Planning and Management Eng.co</title>
-  <link rel="stylesheet" href="style.css" />
   <link rel="shortcut icon" href="logo.png" type="image/png">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#007bff">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow:hidden; 
+      background:#f8f9fa; 
+      color:#333; 
+    }
+
+    /* Sidebar - Desktop */
+    .sidebar {
+      position: fixed;
+      top:0;
+      left:0;
+      height:100vh;
+      width:240px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      background:#ffffff;
+      box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+      padding:30px 20px;
+      z-index:10;
+    }
+    
+    .logo { 
+      width:80px; 
+      height:80px;
+      margin-bottom:20px; 
+      pointer-events:none; 
+      user-select:none;
+      border-radius:10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .sidebar h1 { 
+      font-size:16px; 
+      font-weight:600;
+      text-align:center; 
+      line-height:1.5; 
+      margin-bottom:25px;
+      color:#1a1a1a;
+    }
+    
+    .contact-info { 
+      font-size:13px; 
+      text-align:center; 
+      color:#666; 
+      line-height:2; 
+      pointer-events:none;
+      width:100%;
+    }
+    
+    .contact-info p {
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    /* Slides container - Desktop */
+    .slides-container {
+      position:absolute;
+      top:0;
+      left:240px;
+      height:100vh;
+      width:calc(100vw - 240px);
+      overflow-y:scroll;
+      scroll-snap-type:y mandatory;
+      scrollbar-width:none;
+      background:#f8f9fa;
+    }
+    .slides-container::-webkit-scrollbar { display:none; }
+
+    .slide {
+      position:relative;
+      width:100%;
+      height:100vh;
+      scroll-snap-align:start;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:20px;
+    }
+    
+    .slide img {
+      max-width:100%;
+      max-height:100%;
+      object-fit:contain;
+      pointer-events:none;
+      -webkit-user-drag:none;
+      user-select:none;
+      border-radius:8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      background:#fff;
+    }
+
+    /* Zoom buttons */
+    .zoom-controls {
+      position:absolute;
+      bottom:30px;
+      right:30px;
+      display:flex;
+      gap:10px;
+    }
+    
+    .zoom-controls button {
+      width:40px;
+      height:40px;
+      font-size:20px;
+      font-weight:600;
+      border:none;
+      border-radius:8px;
+      background:#007bff;
+      color:#fff;
+      cursor:pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0,123,255,0.3);
+    }
+    
+    .zoom-controls button:hover {
+      background:#0056b3;
+      transform:translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,123,255,0.4);
+    }
+    
+    .zoom-controls button:active {
+      transform:translateY(0);
+    }
+
+    /* Scroll indicator - Desktop */
+    .scroll-indicator {
+      position: fixed;
+      top:50%;
+      right:30px;
+      transform:translateY(-50%);
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap:10px;
+      z-index:10;
+    }
+
+    .dot {
+      width:12px;
+      height:12px;
+      background:#cbd5e0;
+      border-radius:6px;
+      transition: all 0.3s ease;
+      position:relative;
+      cursor:pointer;
+    }
+
+    .dot span {
+      position:absolute;
+      right:25px;
+      top:50%;
+      transform:translateY(-50%);
+      font-size:13px;
+      font-weight:500;
+      color:#4a5568;
+      white-space:nowrap;
+      opacity:0;
+      transition: opacity 0.3s ease;
+      pointer-events:none;
+      background:#fff;
+      padding:4px 10px;
+      border-radius:4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .dot.active {
+      height:40px;
+      background:#007bff;
+      border-radius:6px;
+    }
+    
+    .dot.active span {
+      opacity:1;
+    }
+
+    .dot:hover:not(.active) {
+      height:40px;
+      background:#718096;
+      border-radius:6px;
+    }
+    
+    .dot:hover span {
+      opacity:1;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        top:auto;
+        bottom:0;
+        left:0;
+        width:100vw;
+        height:auto;
+        flex-direction:row;
+        justify-content:space-between;
+        padding:15px 20px;
+        box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+      }
+      
+      .logo {
+        width:50px;
+        height:50px;
+        margin:0;
+      }
+      
+      .sidebar h1 {
+        font-size:13px;
+        margin:0;
+        text-align:left;
+        flex:1;
+        padding:0 15px;
+      }
+      
+      .contact-info {
+        font-size:11px;
+        text-align:right;
+        line-height:1.4;
+      }
+      
+      .contact-info p {
+        margin-bottom:3px;
+        justify-content:flex-end;
+      }
+      
+      .slides-container {
+        left:0;
+        top:0;
+        width:100vw;
+        height:100vh;
+        padding-bottom:100px;
+      }
+      
+      .slide {
+        padding:10px;
+      }
+      
+      .zoom-controls {
+        bottom:120px;
+        right:15px;
+      }
+      
+      .zoom-controls button {
+        width:35px;
+        height:35px;
+        font-size:18px;
+      }
+      
+      .scroll-indicator {
+        bottom:120px;
+        top:auto;
+        right:auto;
+        left:50%;
+        transform:translateX(-50%);
+        flex-direction:row;
+        gap:8px;
+      }
+      
+      .dot span {
+        display:none;
+      }
+      
+      .dot.active {
+        width:40px;
+        height:12px;
+      }
+      
+      .dot:hover:not(.active) {
+        width:40px;
+        height:12px;
+      }
+    }
+    
+    /* Small mobile optimization */
+    @media (max-width: 480px) {
+      .sidebar h1 {
+        font-size:11px;
+      }
+      
+      .contact-info {
+        font-size:10px;
+      }
+      
+      .zoom-controls {
+        bottom:110px;
+        right:10px;
+        gap:6px;
+      }
+      
+      .zoom-controls button {
+        width:32px;
+        height:32px;
+        font-size:16px;
+      }
+      
+      .scroll-indicator {
+        bottom:110px;
+      }
+    }
+  </style>
 </head>
 <body>
   <!-- Sidebar -->
@@ -16,41 +321,115 @@
     <div class="contact-info">
       <p>📍 TEHRAN IRAN</p>
       <p>📞 +968 966 100 84</p>
-	  <p>📞 +98 912 812 112 9</p>
+      <p>📞 +98 912 812 112 9</p>
       <p>✉ ceo@cpmengco.com</p>
     </div>
   </div>
 
   <!-- Slides container -->
   <div class="slides-container" id="slidesContainer">
-    <!-- Slides with zoom controls -->
-    <div class="slide"><img src="images/Slide1.PNG" alt="Slide1" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide2.PNG" alt="Slide2" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide3.PNG" alt="Slide3" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide4.PNG" alt="Slide4" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide5.PNG" alt="Slide5" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide6.PNG" alt="Slide6" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide7.PNG" alt="Slide7" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide8.PNG" alt="Slide8" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide9.PNG" alt="Slide9" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide10.PNG" alt="Slide10" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide11.PNG" alt="Slide11" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide12.PNG" alt="Slide12" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide13.PNG" alt="Slide13" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide14.PNG" alt="Slide14" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide15.PNG" alt="Slide15" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide16.PNG" alt="Slide16" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide17.PNG" alt="Slide17" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide18.PNG" alt="Slide18" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide19.PNG" alt="Slide19" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide20.PNG" alt="Slide20" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide21.PNG" alt="Slide21" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
-    <div class="slide"><img src="images/Slide22.PNG" alt="Slide22" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">-</button></div></div>
+    <div class="slide"><img src="images/Slide1.PNG" alt="Slide1" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide2.PNG" alt="Slide2" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide3.PNG" alt="Slide3" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide4.PNG" alt="Slide4" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide5.PNG" alt="Slide5" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide6.PNG" alt="Slide6" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide7.PNG" alt="Slide7" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide8.PNG" alt="Slide8" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide9.PNG" alt="Slide9" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide10.PNG" alt="Slide10" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide11.PNG" alt="Slide11" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide12.PNG" alt="Slide12" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide13.PNG" alt="Slide13" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide14.PNG" alt="Slide14" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide15.PNG" alt="Slide15" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide16.PNG" alt="Slide16" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide17.PNG" alt="Slide17" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide18.PNG" alt="Slide18" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide19.PNG" alt="Slide19" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide20.PNG" alt="Slide20" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide21.PNG" alt="Slide21" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
+    <div class="slide"><img src="images/Slide22.PNG" alt="Slide22" /><div class="zoom-controls"><button class="zoom-in">+</button><button class="zoom-out">−</button></div></div>
   </div>
 
   <!-- Scroll indicator -->
   <div class="scroll-indicator" id="scrollIndicator"></div>
 
-  <script defer src="script.js"></script>
+  <script>
+    const slidesContainer = document.getElementById('slidesContainer');
+    const slides = slidesContainer.querySelectorAll('.slide');
+    const scrollIndicator = document.getElementById('scrollIndicator');
+
+    // CUSTOMIZE YOUR SLIDE LABELS HERE
+    const slideLabels = [
+      'CPM',
+      'Architecture 1',
+      'Architecture 2',
+      'Architecture 3 CPM + Pentago',
+      'Architecture 4 CPM ',
+      'Architecture 5 CPM ',
+      'Oil & gas 1 ',
+      'Oil & gas 2 ',
+      'Oil & gas 3 ',
+      'Oil & gas 4 ',
+      'Oil & gas 5 ',
+      'Oil & gas 6 ',
+      'Oil & gas 7 ',
+      'Oil & gas 8',
+      'Oil & gas 9',
+      'Oil & gas 10',
+      'CIVIL 1',
+      'CIVIL 2',
+      'CIVIL 3',
+      'CIVIL 4',
+      'CIVIL 5',
+      'Our Partners'
+    ];
+
+    // Generate dots with labels
+    slides.forEach((slide, i) => {
+      const dot = document.createElement('div');
+      dot.classList.add('dot');
+
+      const label = document.createElement('span');
+      label.textContent = slideLabels[i];
+      dot.appendChild(label);
+
+      dot.addEventListener('click', () => {
+        slidesContainer.scrollTo({ top: i * window.innerHeight, behavior: 'smooth' });
+      });
+
+      scrollIndicator.appendChild(dot);
+    });
+
+    const dots = document.querySelectorAll('.dot');
+
+    // Update active dot on scroll
+    function updateActiveDot() {
+      const index = Math.round(slidesContainer.scrollTop / window.innerHeight);
+      dots.forEach((d, i) => d.classList.toggle('active', i === index));
+    }
+
+    slidesContainer.addEventListener('scroll', updateActiveDot);
+    updateActiveDot();
+
+    // Zoom functionality
+    slides.forEach(slide => {
+      const img = slide.querySelector('img');
+      const zoomIn = slide.querySelector('.zoom-in');
+      const zoomOut = slide.querySelector('.zoom-out');
+      let scale = 1;
+
+      zoomIn.addEventListener('click', () => {
+        scale = Math.min(3, scale + 0.2);
+        img.style.transform = `scale(${scale})`;
+      });
+      
+      zoomOut.addEventListener('click', () => {
+        scale = Math.max(1, scale - 0.2);
+        img.style.transform = `scale(${scale})`;
+      });
+    });
+  </script>
 </body>
 </html>
