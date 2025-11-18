@@ -115,3 +115,84 @@ body { font-family: "Segoe UI", Arial, sans-serif; overflow:hidden; background:#
   background:#999;
   border-radius:5px;
 }
+/* ===== MOBILE LAYOUT ===== */
+@media only screen and (max-width: 768px) {
+
+    /* Main layout becomes vertical */
+    body {
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+
+    /* Sidebar goes to bottom */
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        bottom: 0;
+        top: auto;
+        padding: 20px 15px;
+        border-right: none;
+        border-top: 2px solid #ddd;
+        display: grid;
+        grid-template-columns: 1fr 1fr;      /* two columns */
+        align-items: center;
+        justify-items: center;
+        text-align: center;
+        gap: 10px;
+    }
+
+    /* Logo sizing */
+    .sidebar img {
+        width: 90px;
+        height: auto;
+        margin-bottom: 10px;
+    }
+
+    /* Sidebar text */
+    .sidebar .contact-item {
+        font-size: 14px;
+        line-height: 18px;
+    }
+
+    /* Image container becomes centered and fits screen */
+    .image-container img {
+        width: 100%;
+        height: auto;
+        max-height: unset;
+    }
+
+    /* Scroll bar moves closer and scales */
+    .scrollbar-container {
+        position: fixed;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+        scale: 0.8;   /* shrink slightly on mobile */
+    }
+
+    /* Names move slightly to the left */
+    .scrollbar-label {
+        font-size: 10px;
+        margin-left: 6px;
+    }
+
+    /* Active & hover dots smaller on mobile */
+    .scroll-dot,
+    .scroll-dot-active,
+    .scroll-dot-hover {
+        width: 10px;
+        height: 10px;
+    }
+
+    .scroll-dot-active {
+        width: 10px;
+        height: 28px;
+    }
+
+    .scroll-dot-hover {
+        width: 10px;
+        height: 24px;
+    }
+}
