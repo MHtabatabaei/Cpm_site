@@ -115,84 +115,90 @@ body { font-family: "Segoe UI", Arial, sans-serif; overflow:hidden; background:#
   background:#999;
   border-radius:5px;
 }
-/* ===== MOBILE LAYOUT ===== */
+/* ===== STRICT MOBILE LAYOUT (Sidebar moves to bottom) ===== */
 @media only screen and (max-width: 768px) {
 
-    /* Main layout becomes vertical */
+    /* Layout becomes vertical (image on top, sidebar at bottom) */
     body {
         display: flex;
         flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0;
         overflow-x: hidden;
     }
 
-    /* Sidebar goes to bottom */
+    /* Image container full width */
+    .image-container {
+        width: 100%;
+        height: auto;
+        order: 1;  /* image goes first */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .image-container img {
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+    }
+
+    /* Sidebar becomes a bottom bar */
     .sidebar {
         position: relative;
         width: 100%;
         height: auto;
-        bottom: 0;
-        top: auto;
-        padding: 20px 15px;
-        border-right: none;
+        order: 2;     /* sidebar goes after image */
+        padding: 15px 10px;
+        background: #ffffff;
         border-top: 2px solid #ddd;
         display: grid;
-        grid-template-columns: 1fr 1fr;      /* two columns */
-        align-items: center;
-        justify-items: center;
-        text-align: center;
+        grid-template-columns: repeat(2, 1fr);  /* two columns */
         gap: 10px;
+        text-align: center;
+        z-index: 50;
     }
 
-    /* Logo sizing */
+    /* Logo in mobile */
     .sidebar img {
-        width: 90px;
+        width: 80px;
         height: auto;
-        margin-bottom: 10px;
+        margin: 0 auto;
     }
 
-    /* Sidebar text */
-    .sidebar .contact-item {
-        font-size: 14px;
+    .contact-item {
+        font-size: 13px;
         line-height: 18px;
     }
 
-    /* Image container becomes centered and fits screen */
-    .image-container img {
-        width: 100%;
-        height: auto;
-        max-height: unset;
-    }
-
-    /* Scroll bar moves closer and scales */
+    /* Scroll bar stays near right edge, scaled down */
     .scrollbar-container {
         position: fixed;
         right: 5px;
         top: 50%;
         transform: translateY(-50%);
-        scale: 0.8;   /* shrink slightly on mobile */
+        scale: 0.75;
+        z-index: 100;
     }
 
-    /* Names move slightly to the left */
-    .scrollbar-label {
-        font-size: 10px;
-        margin-left: 6px;
-    }
-
-    /* Active & hover dots smaller on mobile */
     .scroll-dot,
-    .scroll-dot-active,
-    .scroll-dot-hover {
+    .scroll-dot-hover,
+    .scroll-dot-active {
         width: 10px;
         height: 10px;
     }
 
     .scroll-dot-active {
-        width: 10px;
-        height: 28px;
+        height: 26px;
     }
 
     .scroll-dot-hover {
-        width: 10px;
-        height: 24px;
+        height: 22px;
+    }
+
+    .scrollbar-label {
+        font-size: 10px;
+        margin-left: 6px;
     }
 }
