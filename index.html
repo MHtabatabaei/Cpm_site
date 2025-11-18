@@ -241,12 +241,12 @@
         left:0;
         top:0;
         width:100vw;
-        height:100vh;
-        padding-bottom:100px;
+        height:calc(100vh - 100px);
       }
       
       .slide {
-        padding:10px;
+        padding:10px 10px 60px 10px;
+        height:calc(100vh - 100px);
       }
       
       .zoom-controls {
@@ -261,7 +261,7 @@
       }
       
       .scroll-indicator {
-        bottom:120px;
+        bottom:130px;
         top:auto;
         right:auto;
         left:50%;
@@ -271,7 +271,12 @@
       }
       
       .dot span {
-        display:none;
+        left:50%;
+        right:auto;
+        top:auto;
+        bottom:25px;
+        transform:translateX(-50%);
+        display:block;
       }
       
       .dot.active {
